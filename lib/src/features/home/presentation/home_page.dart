@@ -25,16 +25,16 @@ class HomePage extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: Insets.maxWidth),
               child: CustomScrollView(
                 slivers: [
-                    SliverToBoxAdapter(child: SizedBox(height: 60)),
+                    SliverToBoxAdapter(child: SizedBox(height: 30)),
                     SliverToBoxAdapter(child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: context.insets.padding  ),
+                      padding: EdgeInsets.only(top: context.insets.padding, right: context.insets.padding, left: context.insets.padding),
                       child: HeroWidget(),
                     )),
                     SliverGap(context.insets.gap),
-                    SliverToBoxAdapter(child: SizedBox(height: 80)),
                     SliverToBoxAdapter(child: HomeProjectsList()),
                     SliverToBoxAdapter(child: SizedBox(height: 80)),
                     SliverToBoxAdapter(child: ExperiencesBody()),
+                    SliverToBoxAdapter(child: SizedBox(height: 80)),
                     TestimonioList(),
                     SliverToBoxAdapter(
                       child: MyFooter(),

@@ -1,7 +1,9 @@
 
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
+import 'package:portafolio_app_web/src/widgets/home_title_subtitle.dart';
 import 'package:portafolio_app_web/src/widgets/styled_card.dart';
 
 const expLen = 6;
@@ -14,7 +16,17 @@ class ExperiencesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DesktopExperienceBody();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HomeTitleSubtitle(
+          title: 'Experiences', 
+          subtitle: 'My professional journey so far'),
+          Gap(32),
+          context.isDesktop ? const DesktopExperienceBody() : const PhoneExperienceBody(),
+      ]
+      
+    );
   }
 }
 
@@ -103,6 +115,31 @@ class DesktopExperienceBody extends StatelessWidget {
   }
 }
 
+class PhoneExperienceBody extends StatelessWidget {
+  const PhoneExperienceBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          for (int i = 0; i < expLen; i++) ...[
+            ExperienceItem(),
+            if (i < expLen - 1)
+              SizedBox(
+                height: 60,
+                child: DottedLine(
+                  dashColor: Colors.white,
+                  direction: Axis.vertical,
+                ),
+              ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 const expWidth = 300.0;
 const expHeight = 230.0;
 
@@ -114,6 +151,7 @@ class ExperienceItem extends StatelessWidget {
     return StyledCard(
       width: expWidth,
       height: expHeight,
+      borderEffect: true,
       child: Column(
         children: [
           Text(

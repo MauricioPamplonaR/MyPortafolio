@@ -63,7 +63,7 @@ class LargeTextStyle extends AppTextStyle {
 
   @override
   TextStyle get titleLgBold => const TextStyle(
-    fontSize: 36,
+    fontSize: 46,
     fontWeight: FontWeight.bold,
   );
 

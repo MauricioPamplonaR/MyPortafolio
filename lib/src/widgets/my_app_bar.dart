@@ -60,8 +60,7 @@ class AppLogo extends StatelessWidget {
 
     return Text(
       'Portafolio',      
-       style: context.textStyle.titleLgBold,        
-        
+       style: context.textStyle.titleLgBold,   
       );
   }
 }

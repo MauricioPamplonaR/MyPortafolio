@@ -31,7 +31,7 @@ class ProjectItem extends StatelessWidget {
                   },
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
-                      color: context.colorScheme.surfaceContainerHighest,
+                      color: context.colorScheme.onSurface.withValues(alpha: 0.1),
                       child: Icon(
                         Icons.image_not_supported,
                         color: context.colorScheme.onSurface.withValues(alpha: 0.5),

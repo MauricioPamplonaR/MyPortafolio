@@ -50,7 +50,7 @@ class LanguageSwich extends ConsumerWidget {
             color: context.colorScheme.onSurface
           ),
           const Gap(4),
-          SEOText(Localizations.localeOf(context).languageCode == 'en' ? 'English' : 'Español', style: TextStyle(fontSize: 16, color: Colors.white)),
+          SEOText(Localizations.localeOf(context).languageCode == 'en' ? 'English' : 'Español', style: TextStyle(fontSize: 16, color: context.colorScheme.onSurface)),
         ],
       )
     );
@@ -73,7 +73,7 @@ class PopupLanguageSwichItem extends StatelessWidget {
       children: [
         SvgPicture.asset(icon, width: 18, height: 18),
         const Gap(8),
-        SEOText(language, style: TextStyle(fontSize: 16, color: Colors.white)),
+        SEOText(language, style: TextStyle(fontSize: 16, color: context.colorScheme.onSurface)),
         const SizedBox(width: 10),
       ],
     );
