@@ -107,7 +107,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMe.
   ///
   /// In en, this message translates to:
-  /// **'about Me '**
+  /// **'About Me'**
   String get aboutMe;
 
   /// No description provided for @projects.
@@ -121,6 +121,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact'**
   String get contact;
+
+  /// No description provided for @aboutMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get aboutMeTitle;
+
+  /// No description provided for @aboutMeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m Mauricio Pamplona, proud father of 4 children and Flutter developer.\n\nMy path to programming was unconventional. For years I worked as an upholsterer, a craft that taught me the value of detail, patience, and the satisfaction of transforming materials into something beautiful and functional.\n\nLife led me to discover the world of code, and I found that programming isn\'t so different from upholstery: both require precision, creativity, and the ability to see the final product before it exists.\n\nToday I build applications with the same dedication I once put into upholstering furniture. Every line of code is a stitch, every interface is a design that must be both functional and aesthetic.\n\nI firmly believe it\'s never too late to reinvent yourself, and my story is proof of that.'**
+  String get aboutMeDescription;
+
+  /// No description provided for @testimonialsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Testimonials'**
+  String get testimonialsTitle;
+
+  /// No description provided for @testimonialsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What people say about me'**
+  String get testimonialsSubtitle;
+
+  /// No description provided for @projectsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get projectsTitle;
+
+  /// No description provided for @projectsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A selection of my recent work'**
+  String get projectsSubtitle;
+
+  /// No description provided for @experiencesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get experiencesTitle;
+
+  /// No description provided for @experiencesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My learning path and growth'**
+  String get experiencesSubtitle;
+
+  /// No description provided for @footerCopyright.
+  ///
+  /// In en, this message translates to:
+  /// **'© 2024 Mauricio Pamplona. All rights reserved.'**
+  String get footerCopyright;
+
+  /// No description provided for @poweredByFlutter.
+  ///
+  /// In en, this message translates to:
+  /// **'Powered by Flutter'**
+  String get poweredByFlutter;
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Portfolio'**
+  String get appTitle;
 }
 
 class _AppLocalizationsDelegate

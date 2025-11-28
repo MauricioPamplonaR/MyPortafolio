@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:portafolio_app_web/routes/app_routes.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/styled_button.dart';
 import 'package:portafolio_app_web/styles/app_size.dart';
@@ -11,9 +13,15 @@ class LargeHeroButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        PrimaryButton(title: context.texts.projects),
+        PrimaryButton(
+          title: context.texts.projects,
+          onTap: () => context.go(Routes.projects),
+        ),
         Gap(Insets.lg),
-        OutlineButton(title: context.texts.home, ),
+        OutlineButton(
+          title: context.texts.contact,
+          onTap: () => context.go(Routes.contact),
+        ),
       ],
     );
   }
@@ -28,13 +36,18 @@ class SmallHeroButtons extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
-          child: PrimaryButton(title: context.texts.projects),
+          child: PrimaryButton(
+            title: context.texts.projects,
+            onTap: () => context.go(Routes.projects),
+          ),
         ),
         Gap(Insets.lg),
         SizedBox(
           width: double.infinity,
-          child: OutlineButton(title: context.texts.home),
-         
+          child: OutlineButton(
+            title: context.texts.home,
+            onTap: () => context.go(Routes.home),
+          ),
         ),
       ],
     );

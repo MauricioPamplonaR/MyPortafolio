@@ -16,7 +16,7 @@ class HomeTitleSubtitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: context.textStyle.titleLgBold.copyWith(
+            style: context.textStyle.titleSmBold.copyWith(
               color: context.colorScheme.onSurface,
             ),
             
@@ -24,7 +24,7 @@ class HomeTitleSubtitle extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle,
-            style: context.textStyle.titleSmBold.copyWith(
+            style: context.textStyle.bodyMdMedium.copyWith(
               color: context.colorScheme.onSurface,
             ),
           ),

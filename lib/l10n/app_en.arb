@@ -1,8 +1,17 @@
-
-
 {
     "home" : "Home",
-    "aboutMe" : "about Me ",
+    "aboutMe" : "About Me",
     "projects" : "Projects",
-    "contact" : "Contact"
+    "contact" : "Contact",
+    "aboutMeTitle" : "About Me",
+    "aboutMeDescription" : "I'm Mauricio Pamplona, proud father of 4 children and Flutter developer.\n\nMy path to programming was unconventional. For years I worked as an upholsterer, a craft that taught me the value of detail, patience, and the satisfaction of transforming materials into something beautiful and functional.\n\nLife led me to discover the world of code, and I found that programming isn't so different from upholstery: both require precision, creativity, and the ability to see the final product before it exists.\n\nToday I build applications with the same dedication I once put into upholstering furniture. Every line of code is a stitch, every interface is a design that must be both functional and aesthetic.\n\nI firmly believe it's never too late to reinvent yourself, and my story is proof of that.",
+    "testimonialsTitle" : "Testimonials",
+    "testimonialsSubtitle" : "What people say about me",
+    "projectsTitle" : "Projects",
+    "projectsSubtitle" : "A selection of my recent work",
+    "experiencesTitle" : "Education",
+    "experiencesSubtitle" : "My learning path and growth",
+    "footerCopyright" : "© 2024 Mauricio Pamplona. All rights reserved.",
+    "poweredByFlutter" : "Powered by Flutter",
+    "appTitle" : "Portfolio"
 }

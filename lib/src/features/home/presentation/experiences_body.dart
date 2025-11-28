@@ -20,8 +20,8 @@ class ExperiencesBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         HomeTitleSubtitle(
-          title: 'Experiences', 
-          subtitle: 'My professional journey so far'),
+          title: context.texts.experiencesTitle,
+          subtitle: context.texts.experiencesSubtitle),
           Gap(32),
           context.isDesktop ? const DesktopExperienceBody() : const PhoneExperienceBody(),
       ]
@@ -129,7 +129,7 @@ class PhoneExperienceBody extends StatelessWidget {
               SizedBox(
                 height: 60,
                 child: DottedLine(
-                  dashColor: Colors.white,
+                  dashColor: context.colorScheme.onSurface,
                   direction: Axis.vertical,
                 ),
               ),

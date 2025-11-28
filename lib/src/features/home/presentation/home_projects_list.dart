@@ -1,48 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:portafolio_app_web/src/features/projects/data/remote_projects_repository.dart';
 import 'package:portafolio_app_web/src/features/projects/presentation/project_item.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/home_title_subtitle.dart';
 
-class HomeProjectsList extends StatelessWidget {
+class HomeProjectsList extends ConsumerWidget {
   const HomeProjectsList({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final projectsAsync = ref.watch(getProjectsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const HomeTitleSubtitle(
-          title: 'Projects',
-          subtitle: 'A selection of my recent work'),
-          Gap(32),
-          context.isDesktop ?_HomeProjectsListDesktop() : const _HomeCourseListPhone(),
-         ],);
+        HomeTitleSubtitle(
+          title: context.texts.projectsTitle,
+          subtitle: context.texts.projectsSubtitle,
+        ),
+        const Gap(32),
+        projectsAsync.when(
+          data: (projects) => context.isDesktop
+              ? _HomeProjectsListDesktop(projects: projects)
+              : _HomeCourseListPhone(projects: projects),
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Error: $error')),
+        ),
+      ],
+    );
   }
 }
 
 class _HomeProjectsListDesktop extends StatelessWidget {
-  const _HomeProjectsListDesktop();
+  const _HomeProjectsListDesktop({required this.projects});
+  final List projects;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: context.insets.padding),
-      child: Row(
-        children: [
-          Expanded(child: ProjectItem()),
-          const Gap(16),
-          Expanded(child: ProjectItem()),
-          const Gap(16),
-          Expanded(child: ProjectItem()),
-        ],
+      child: SizedBox(
+        height: 450,
+        child: Row(
+          children: projects.asMap().entries.map((entry) {
+            final index = entry.key;
+            final project = entry.value;
+            return Expanded(
+              child: Row(
+                children: [
+                  Expanded(child: ProjectItem(project: project)),
+                  if (index < projects.length - 1) const Gap(16),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
 }
 
 class _HomeCourseListPhone extends StatelessWidget {
-  const _HomeCourseListPhone();
+  const _HomeCourseListPhone({required this.projects});
+  final List projects;
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +76,12 @@ class _HomeCourseListPhone extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: 5,
+          itemCount: projects.length,
           itemBuilder: (context, index) {
             return Container(
-              margin: EdgeInsets.only(right: index < 4 ? 16 : 0),
+              margin: EdgeInsets.only(right: index < projects.length - 1 ? 16 : 0),
               width: 240,
-              child: ProjectItem(),
+              child: ProjectItem(project: projects[index]),
             );
           },
         ),

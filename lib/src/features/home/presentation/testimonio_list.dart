@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
 import 'package:portafolio_app_web/src/features/testimonio/presentation/testimony_item.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
@@ -8,7 +9,9 @@ class TestimonioList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _DesktopTestimony();
+    return context.isDesktop
+        ? const _DesktopTestimony()
+        : const _PhoneTestimony();
   }
 }
 
@@ -29,3 +32,22 @@ class _DesktopTestimony extends StatelessWidget {
     );
   }
 }
+
+class _PhoneTestimony extends StatelessWidget {
+  const _PhoneTestimony();
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList.separated(
+      itemBuilder: (context, index) {
+        return TestimonyItem();
+      },
+      separatorBuilder: (context, index) => Gap(16),
+        
+      
+      itemCount: 9,
+    );
+  }
+}
+
+

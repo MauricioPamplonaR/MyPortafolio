@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 class PoweredByFlutter extends StatelessWidget {
   const PoweredByFlutter({super.key});
@@ -10,12 +11,10 @@ class PoweredByFlutter extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          
           FlutterLogo(size: 26),
-          SizedBox(width: 10,),
-          const Text('Powered by Flutter'),
-          SizedBox(width: 8,)
-      
+          SizedBox(width: 10),
+          Text(context.texts.poweredByFlutter),
+          SizedBox(width: 8),
         ],
       ),
     );

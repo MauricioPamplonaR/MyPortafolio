@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portafolio_app_web/constans/app_menu_list.dart';
 import 'package:portafolio_app_web/shared/app_theme_controller.dart';
 import 'package:portafolio_app_web/src/widgets/app_bar_drawer_icon.dart';
@@ -57,11 +58,10 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Text(
-      'Portafolio',      
-       style: context.textStyle.titleLgBold,   
-      );
+      context.texts.appTitle,
+      style: context.textStyle.titleLgBold,
+    );
   }
 }
 
@@ -70,12 +70,16 @@ class LargeMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: 
+    return Wrap(
+      alignment: WrapAlignment.center,
+      children:
        AppMenuList.getItems(context)
        .map((AppMenu e) => LargeAppBarMenuItem(
-       text: e.title, isSelected: true, onTap: () {
-        },)).toList()      
+       text: e.title,
+       isSelected: GoRouterState.of(context).fullPath == e.path,
+       onTap: () {
+        context.go(e.path);
+        },)).toList()
     );
   }
 }
@@ -89,7 +93,10 @@ class SmallMenu extends StatelessWidget {
       children: 
        AppMenuList.getItems(context)
        .map((AppMenu e) => LargeAppBarMenuItem(
-       text: e.title, isSelected: true, onTap: () {
+       text: e.title, 
+       isSelected: GoRouterState.of(context).fullPath == e.path, 
+       onTap: () {
+        context.go(e.path);
         },)).toList()      
     );
   }
@@ -114,7 +121,11 @@ class LargeAppBarMenuItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: Insets.med, vertical: Insets.xs),
-        child: Text(text, style: SmallTextStyles().bodyLgMedium,
+        child: Text(
+          text, style: SmallTextStyles().bodyLgMedium.copyWith(
+            color: isSelected ? context.colorScheme.onSurface : context.colorScheme.onSurface.withValues(alpha: 0.7),
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal
+          ),
         ),
         
        

@@ -3,7 +3,8 @@ import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 class PrimaryButton extends StatelessWidget {
   final String title;
-  const PrimaryButton({super.key, required this.title});
+  final VoidCallback? onTap;
+  const PrimaryButton({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class PrimaryButton extends StatelessWidget {
         ),
         foregroundColor: Colors.white,
       ),
-      onPressed: () {},
+      onPressed: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Text(
@@ -28,13 +29,14 @@ class PrimaryButton extends StatelessWidget {
 
 class OutlineButton extends StatelessWidget {
   final String title;
-  const OutlineButton({super.key, required this.title});
+  final VoidCallback? onTap;
+  const OutlineButton({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: onTap,
       style: OutlinedButton.styleFrom(
         backgroundColor: isDark ? context.colorScheme.surface : Colors.transparent,
         foregroundColor: isDark ? context.colorScheme.onSurface : Colors.black,
