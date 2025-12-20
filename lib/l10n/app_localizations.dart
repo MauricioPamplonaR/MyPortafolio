@@ -122,6 +122,18 @@ abstract class AppLocalizations {
   /// **'Contact'**
   String get contact;
 
+  /// No description provided for @mobileAppDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile App Developer'**
+  String get mobileAppDeveloper;
+
+  /// No description provided for @mobileAppDeveloperDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialized in Flutter and Dart, creating cross-platform applications with elegant and functional interfaces.'**
+  String get mobileAppDeveloperDesc;
+
   /// No description provided for @aboutMeTitle.
   ///
   /// In en, this message translates to:
@@ -158,17 +170,17 @@ abstract class AppLocalizations {
   /// **'A selection of my recent work'**
   String get projectsSubtitle;
 
-  /// No description provided for @experiencesTitle.
+  /// No description provided for @educationTitle.
   ///
   /// In en, this message translates to:
   /// **'Education'**
-  String get experiencesTitle;
+  String get educationTitle;
 
-  /// No description provided for @experiencesSubtitle.
+  /// No description provided for @educationSubtitle.
   ///
   /// In en, this message translates to:
   /// **'My learning path and growth'**
-  String get experiencesSubtitle;
+  String get educationSubtitle;
 
   /// No description provided for @footerCopyright.
   ///

@@ -48,11 +48,13 @@ class _StyledCardState extends State<StyledCard> {
           child: widget.child,
         ),
         if (widget.borderEffect) ...[
-          CustomPaint(
-            size: Size(widget.width ?? 0, widget.height ?? 0),
-            painter: CurvedLinePainter(
-              color: context.colorScheme.primary,
-              isDark: context.theme.brightness == Brightness.dark,
+          IgnorePointer(
+            child: CustomPaint(
+              size: Size(widget.width ?? 0, widget.height ?? 0),
+              painter: CurvedLinePainter(
+                color: context.colorScheme.primary,
+                isDark: context.theme.brightness == Brightness.dark,
+              ),
             ),
           ),
         ]

@@ -4,6 +4,7 @@ import 'package:portafolio_app_web/constans/app_icon.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/my_app_bar.dart';
 import 'package:portafolio_app_web/src/widgets/powered_by_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyFooter extends StatelessWidget {
   const MyFooter({super.key});
@@ -38,11 +39,11 @@ class _PhoneFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        AppLogo(),
-        SizedBox(height: 10),
-        SmallMenu(),
-        SizedBox(height: 10),
+      children: [
+        const AppLogo(),
+        const SizedBox(height: 10),
+        const SmallMenu(),
+        const SizedBox(height: 10),
         _FooterLinks(),
       ],
     );
@@ -77,19 +78,19 @@ class _FooterLinks extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _FooterLinkItem(
-          onPressed: () {},
+          onPressed: () => launchUrl(Uri.parse('https://www.youtube.com/@mauriciopamplona1173'), mode: LaunchMode.externalApplication),
           icon: AppIcon.youtube,
         ),
         _FooterLinkItem(
-          onPressed: () {},
+          onPressed: () => launchUrl(Uri.parse('https://www.instagram.com/mauricio_pamplona_s'), mode: LaunchMode.externalApplication),
           icon: AppIcon.instagram,
         ),
         _FooterLinkItem(
-          onPressed: () {},
+          onPressed: () => launchUrl(Uri.parse('https://github.com/MauricioPamplonaR'), mode: LaunchMode.externalApplication),
           icon: AppIcon.github,
         ),
         _FooterLinkItem(
-          onPressed: () {},
+          onPressed: () => launchUrl(Uri.parse('https://www.linkedin.com/in/mauricio-pamplona-778339193/'), mode: LaunchMode.externalApplication),
           icon: AppIcon.linkedin,
         ),
        

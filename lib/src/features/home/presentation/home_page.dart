@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:portafolio_app_web/src/features/home/presentation/experiences_body.dart';
+import 'package:portafolio_app_web/src/features/education/presentation/education_body.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/hero_widget.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/home_projects_list.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/testimonio_list.dart';
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
         SliverGap(context.insets.gap),
         SliverToBoxAdapter(child: HomeProjectsList()),
         SliverGap(context.insets.gap),
-        SliverToBoxAdapter(child: ExperiencesBody()),
+        SliverToBoxAdapter(child: EducationBody()),
         SliverGap(context.insets.gap),
         SliverToBoxAdapter(
           child: Padding(

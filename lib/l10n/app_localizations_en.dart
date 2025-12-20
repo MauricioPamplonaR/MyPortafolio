@@ -21,6 +21,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact => 'Contact';
 
   @override
+  String get mobileAppDeveloper => 'Mobile App Developer';
+
+  @override
+  String get mobileAppDeveloperDesc =>
+      'Specialized in Flutter and Dart, creating cross-platform applications with elegant and functional interfaces.';
+
+  @override
   String get aboutMeTitle => 'About Me';
 
   @override
@@ -40,10 +47,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projectsSubtitle => 'A selection of my recent work';
 
   @override
-  String get experiencesTitle => 'Education';
+  String get educationTitle => 'Education';
 
   @override
-  String get experiencesSubtitle => 'My learning path and growth';
+  String get educationSubtitle => 'My learning path and growth';
 
   @override
   String get footerCopyright =>

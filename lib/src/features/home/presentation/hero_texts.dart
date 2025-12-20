@@ -24,8 +24,7 @@ class HeroTexts extends StatelessWidget {
           ),
           Gap((Insets.sm)),
           SEOText(
-            'mobileAppDeveloper',
-            // context.texts.mobileAppDeveloper,
+            context.texts.mobileAppDeveloper,
             textAlign: context.isDesktopOrTablet
                 ? TextAlign.left
                 : TextAlign.center,
@@ -35,8 +34,7 @@ class HeroTexts extends StatelessWidget {
           ),
            Gap((Insets.lg)),
           SEOText(
-            'mobileAppDeveloperDesc',
-            // context.texts.mobileAppDeveloperDesc,
+            context.texts.mobileAppDeveloperDesc,
             textAlign: context.isDesktopOrTablet
                 ? TextAlign.left
                 : TextAlign.center,
