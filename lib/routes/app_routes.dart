@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:portafolio_app_web/src/features/about/presentation/about_me_page.dart';
+import 'package:portafolio_app_web/src/features/admin/presentation/admin_page.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/contact_page.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/home_page.dart';
 import 'package:portafolio_app_web/src/features/home/presentation/profile_page.dart';
@@ -11,6 +12,7 @@ class Routes{
   static const projects = '/projects';
   static const contact = '/contact';
   static const profile = '/profile';
+  static const admin = '/admin';
 
 }
 
@@ -20,7 +22,7 @@ class AppRoutes {
       GoRoute(path: Routes.home,
       pageBuilder: (context, state) => NoTransitionPage(child: HomePage()),
       ),
-      GoRoute(path: Routes.aboutMe, 
+      GoRoute(path: Routes.aboutMe,
       pageBuilder: (context, state) => NoTransitionPage(child: AboutMePage()),
       ),
       GoRoute(path: Routes.projects,
@@ -32,6 +34,9 @@ class AppRoutes {
       GoRoute(path: Routes.profile,
       pageBuilder: (context, state) => NoTransitionPage(child: ProfilePage()),
       ),
-    
+      GoRoute(path: Routes.admin,
+      pageBuilder: (context, state) => NoTransitionPage(child: AdminPage()),
+      ),
+
     ]);
 }

@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:portafolio_app_web/constans/app_menu_list.dart';
 import 'package:portafolio_app_web/shared/app_theme_controller.dart';
+import 'package:portafolio_app_web/src/features/auth/data/auth_repository.dart';
 import 'package:portafolio_app_web/src/widgets/app_bar_drawer_icon.dart';
 import 'package:portafolio_app_web/src/widgets/drawer_menu.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
@@ -38,8 +40,10 @@ class MyAppBar extends StatelessWidget {
                    if (context.isDesktop) LargeMenu(),
                   Spacer(),
                   LanguageSwich(),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   ThemeToggle(),
+                  const SizedBox(width: 8),
+                  const UserAvatarButton(),
                   if (!context.isDesktop) AppBarDrawerIcon(),
 
                 ],
@@ -140,14 +144,84 @@ class ThemeToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
    final state = ref.watch(appThemeControllerProvider);
-    return Switch(  
-      value: state.value == ThemeMode.dark,  
+    return Switch(
+      value: state.value == ThemeMode.dark,
       activeTrackColor: Colors.grey,
       // activeThumbColor: Colors.black54,
       inactiveTrackColor: Colors.black,
       // inactiveThumbColor: Colors.white,
       onChanged: (value) {
         ref.read(appThemeControllerProvider.notifier).changeTheme(value ? ThemeMode.dark : ThemeMode.light);
+      },
+    );
+  }
+}
+
+class UserAvatarButton extends ConsumerWidget {
+  const UserAvatarButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      return const SizedBox.shrink();
+    }
+
+    return PopupMenuButton<String>(
+      offset: const Offset(0, 45),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: CircleAvatar(
+        radius: 18,
+        backgroundImage: user.photoURL != null
+            ? NetworkImage(user.photoURL!)
+            : null,
+        child: user.photoURL == null
+            ? Text(
+                (user.displayName ?? user.email ?? 'U')[0].toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )
+            : null,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem<String>(
+          enabled: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user.displayName ?? 'Usuario',
+                style: context.textStyle.bodyLgBold,
+              ),
+              Text(
+                user.email ?? '',
+                style: context.textStyle.bodyMdMedium.copyWith(
+                  color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem<String>(
+          value: 'signout',
+          child: Row(
+            children: [
+              Icon(Icons.logout, size: 20, color: context.colorScheme.error),
+              const SizedBox(width: 8),
+              Text(
+                'Cerrar sesión',
+                style: TextStyle(color: context.colorScheme.error),
+              ),
+            ],
+          ),
+        ),
+      ],
+      onSelected: (value) async {
+        if (value == 'signout') {
+          final authRepo = ref.read(authRepositoryProvider);
+          await authRepo.signOut();
+        }
       },
     );
   }

@@ -21,6 +21,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact => 'Contact';
 
   @override
+  String get signInRequired => 'Sign in required';
+
+  @override
+  String get signInToInteract =>
+      'Sign in with Google to like and comment on recommendations.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get recommendationsTitle => 'Recommendations';
+
+  @override
+  String get recommendationsSubtitle => 'What people say about me';
+
+  @override
+  String get leaveRecommendation => 'Leave a recommendation';
+
+  @override
+  String get writeRecommendation => 'Write your recommendation...';
+
+  @override
+  String get yourRelationship => 'Your relationship';
+
+  @override
+  String get colleague => 'Colleague';
+
+  @override
+  String get client => 'Client';
+
+  @override
+  String get mentor => 'Mentor';
+
+  @override
+  String get student => 'Student';
+
+  @override
+  String get friend => 'Friend';
+
+  @override
+  String get other => 'Other';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get recommendationSent =>
+      'Recommendation sent! It will be visible after review.';
+
+  @override
+  String get comments => 'Comments';
+
+  @override
+  String get writeComment => 'Write a comment...';
+
+  @override
+  String get noComments => 'No comments yet. Be the first!';
+
+  @override
+  String get noRecommendations =>
+      'No recommendations yet. Be the first to leave one!';
+
+  @override
   String get mobileAppDeveloper => 'Mobile App Developer';
 
   @override

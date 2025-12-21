@@ -21,6 +21,72 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contact => 'Contáctame';
 
   @override
+  String get signInRequired => 'Inicio de sesión requerido';
+
+  @override
+  String get signInToInteract =>
+      'Inicia sesión con Google para dar like y comentar en las recomendaciones.';
+
+  @override
+  String get cancel => 'Cancelar';
+
+  @override
+  String get signInWithGoogle => 'Iniciar sesión con Google';
+
+  @override
+  String get recommendationsTitle => 'Recomendaciones';
+
+  @override
+  String get recommendationsSubtitle => 'Lo que dicen de mí';
+
+  @override
+  String get leaveRecommendation => 'Dejar una recomendación';
+
+  @override
+  String get writeRecommendation => 'Escribe tu recomendación...';
+
+  @override
+  String get yourRelationship => 'Tu relación';
+
+  @override
+  String get colleague => 'Compañero de trabajo';
+
+  @override
+  String get client => 'Cliente';
+
+  @override
+  String get mentor => 'Mentor';
+
+  @override
+  String get student => 'Estudiante';
+
+  @override
+  String get friend => 'Amigo';
+
+  @override
+  String get other => 'Otro';
+
+  @override
+  String get submit => 'Enviar';
+
+  @override
+  String get recommendationSent =>
+      '¡Recomendación enviada! Será visible después de la revisión.';
+
+  @override
+  String get comments => 'Comentarios';
+
+  @override
+  String get writeComment => 'Escribe un comentario...';
+
+  @override
+  String get noComments => 'Aún no hay comentarios. ¡Sé el primero!';
+
+  @override
+  String get noRecommendations =>
+      'Aún no hay recomendaciones. ¡Sé el primero en dejar una!';
+
+  @override
   String get mobileAppDeveloper => 'Desarrollador de Apps Móviles';
 
   @override

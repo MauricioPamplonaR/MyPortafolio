@@ -122,6 +122,132 @@ abstract class AppLocalizations {
   /// **'Contact'**
   String get contact;
 
+  /// No description provided for @signInRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in required'**
+  String get signInRequired;
+
+  /// No description provided for @signInToInteract.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google to like and comment on recommendations.'**
+  String get signInToInteract;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @signInWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get signInWithGoogle;
+
+  /// No description provided for @recommendationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendations'**
+  String get recommendationsTitle;
+
+  /// No description provided for @recommendationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What people say about me'**
+  String get recommendationsSubtitle;
+
+  /// No description provided for @leaveRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a recommendation'**
+  String get leaveRecommendation;
+
+  /// No description provided for @writeRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your recommendation...'**
+  String get writeRecommendation;
+
+  /// No description provided for @yourRelationship.
+  ///
+  /// In en, this message translates to:
+  /// **'Your relationship'**
+  String get yourRelationship;
+
+  /// No description provided for @colleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get colleague;
+
+  /// No description provided for @client.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get client;
+
+  /// No description provided for @mentor.
+  ///
+  /// In en, this message translates to:
+  /// **'Mentor'**
+  String get mentor;
+
+  /// No description provided for @student.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get student;
+
+  /// No description provided for @friend.
+  ///
+  /// In en, this message translates to:
+  /// **'Friend'**
+  String get friend;
+
+  /// No description provided for @other.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get other;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @recommendationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommendation sent! It will be visible after review.'**
+  String get recommendationSent;
+
+  /// No description provided for @comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Comments'**
+  String get comments;
+
+  /// No description provided for @writeComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment...'**
+  String get writeComment;
+
+  /// No description provided for @noComments.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet. Be the first!'**
+  String get noComments;
+
+  /// No description provided for @noRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'No recommendations yet. Be the first to leave one!'**
+  String get noRecommendations;
+
   /// No description provided for @mobileAppDeveloper.
   ///
   /// In en, this message translates to:

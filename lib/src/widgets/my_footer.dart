@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portafolio_app_web/constans/app_icon.dart';
+import 'package:portafolio_app_web/routes/app_routes.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/my_app_bar.dart';
 import 'package:portafolio_app_web/src/widgets/powered_by_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+const _adminEmail = 'mauropam77@gmail.com';
 
 class MyFooter extends StatelessWidget {
   const MyFooter({super.key});
@@ -73,6 +78,9 @@ class _FooterLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final isAdmin = user?.email == _adminEmail;
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -93,7 +101,15 @@ class _FooterLinks extends StatelessWidget {
           onPressed: () => launchUrl(Uri.parse('https://www.linkedin.com/in/mauricio-pamplona-778339193/'), mode: LaunchMode.externalApplication),
           icon: AppIcon.linkedin,
         ),
-       
+        if (isAdmin)
+          IconButton(
+            onPressed: () => context.go(Routes.admin),
+            icon: Icon(
+              Icons.admin_panel_settings,
+              size: context.isDesktop ? 28 : 24,
+              color: context.colorScheme.onSurface,
+            ),
+          ),
       ],
     );
   }
