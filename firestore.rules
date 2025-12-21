@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'mauropam77@gmail.com';
+    }
+
+    match /educations/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /projects/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /recommendations/{docId} {
+      allow read: if resource.data.approved == true || isAdmin();
+      allow create: if request.auth != null;
+      allow update, delete: if isAdmin();
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if request.auth != null;
+        allow delete: if isAdmin();
+      }
+
+      match /likes/{likeId} {
+        allow read: if true;
+        allow create, delete: if request.auth != null;
+      }
+    }
+  }
+}
