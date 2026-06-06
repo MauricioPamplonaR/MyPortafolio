@@ -9,10 +9,7 @@ import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/styled_card.dart';
 
 class RecommendationItem extends ConsumerStatefulWidget {
-  const RecommendationItem({
-    super.key,
-    required this.recommendation,
-  });
+  const RecommendationItem({super.key, required this.recommendation});
 
   final Recommendation recommendation;
 
@@ -31,21 +28,28 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
     super.initState();
     _likesCount = widget.recommendation.likesCount;
     _commentsCount = widget.recommendation.commentsCount;
-    _checkIfLiked();
+    _loadInteractionState();
   }
 
-  Future<void> _checkIfLiked() async {
-    final user = ref.read(currentUserProvider);
-    if (user == null) return;
-
+  Future<void> _loadInteractionState() async {
+    final recommendationId = widget.recommendation.id;
+    if (recommendationId == null) return;
     final repository = ref.read(recommendationsRepositoryProvider);
-    final hasLiked = await repository.hasUserLiked(
-      widget.recommendation.id!,
-      user.uid,
-    );
+    final user = ref.read(currentUserProvider);
+
+    final likesCount = await repository.getLikesCount(recommendationId);
+    final commentsCount = await repository.getCommentsCount(recommendationId);
+    final hasLiked =
+        user == null
+            ? false
+            : await repository.hasUserLiked(recommendationId, user.uid);
 
     if (mounted) {
-      setState(() => _hasLiked = hasLiked);
+      setState(() {
+        _hasLiked = hasLiked;
+        _likesCount = likesCount;
+        _commentsCount = commentsCount;
+      });
     }
   }
 
@@ -61,51 +65,67 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
     setState(() => _isLiking = true);
 
     try {
-      final repository = ref.read(recommendationsRepositoryProvider);
-      await repository.toggleLike(widget.recommendation.id!, user.uid);
+      final recommendationId = widget.recommendation.id;
+      if (recommendationId == null) return;
 
-      setState(() {
-        _hasLiked = !_hasLiked;
-        _likesCount += _hasLiked ? 1 : -1;
-      });
+      final repository = ref.read(recommendationsRepositoryProvider);
+      await repository.toggleLike(recommendationId, user.uid);
+      final likesCount = await repository.getLikesCount(recommendationId);
+      final hasLiked = await repository.hasUserLiked(
+        recommendationId,
+        user.uid,
+      );
+
+      if (mounted) {
+        setState(() {
+          _hasLiked = hasLiked;
+          _likesCount = likesCount;
+        });
+      }
     } finally {
-      setState(() => _isLiking = false);
+      if (mounted) {
+        setState(() => _isLiking = false);
+      }
     }
   }
 
   void _showSignInDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(context.texts.signInRequired),
-        content: Text(context.texts.signInToInteract),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(context.texts.cancel),
+      builder:
+          (context) => AlertDialog(
+            title: Text(context.texts.signInRequired),
+            content: Text(context.texts.signInToInteract),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(context.texts.cancel),
+              ),
+              FilledButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  final authRepo = ref.read(authRepositoryProvider);
+                  await authRepo.signInWithGoogle();
+                },
+                child: Text(context.texts.signInWithGoogle),
+              ),
+            ],
           ),
-          FilledButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              final authRepo = ref.read(authRepositoryProvider);
-              await authRepo.signInWithGoogle();
-            },
-            child: Text(context.texts.signInWithGoogle),
-          ),
-        ],
-      ),
     );
   }
 
   void _showCommentsDialog() {
+    if (widget.recommendation.id == null) return;
+
     showDialog(
       context: context,
-      builder: (context) => CommentsDialog(
-        recommendation: widget.recommendation,
-        onCommentAdded: () {
-          setState(() => _commentsCount++);
-        },
-      ),
+      builder:
+          (context) => CommentsDialog(
+            recommendation: widget.recommendation,
+            onCommentAdded: () {
+              setState(() => _commentsCount++);
+            },
+          ),
     );
   }
 
@@ -123,11 +143,17 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
       final weeks = (difference.inDays / 7).floor();
       return weeks == 1 ? '1 week ago' : '$weeks weeks ago';
     } else if (difference.inDays > 0) {
-      return difference.inDays == 1 ? '1 day ago' : '${difference.inDays} days ago';
+      return difference.inDays == 1
+          ? '1 day ago'
+          : '${difference.inDays} days ago';
     } else if (difference.inHours > 0) {
-      return difference.inHours == 1 ? '1 hour ago' : '${difference.inHours} hours ago';
+      return difference.inHours == 1
+          ? '1 hour ago'
+          : '${difference.inHours} hours ago';
     } else if (difference.inMinutes > 0) {
-      return difference.inMinutes == 1 ? '1 minute ago' : '${difference.inMinutes} minutes ago';
+      return difference.inMinutes == 1
+          ? '1 minute ago'
+          : '${difference.inMinutes} minutes ago';
     } else {
       return 'Just now';
     }
@@ -146,17 +172,19 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundImage: recommendation.authorPhotoUrl != null
-                    ? NetworkImage(recommendation.authorPhotoUrl!)
-                    : null,
-                child: recommendation.authorPhotoUrl == null
-                    ? Text(
-                        recommendation.authorName.isNotEmpty
-                            ? recommendation.authorName[0].toUpperCase()
-                            : '?',
-                        style: context.textStyle.bodyLgBold,
-                      )
-                    : null,
+                backgroundImage:
+                    recommendation.authorPhotoUrl != null
+                        ? NetworkImage(recommendation.authorPhotoUrl!)
+                        : null,
+                child:
+                    recommendation.authorPhotoUrl == null
+                        ? Text(
+                          recommendation.authorName.isNotEmpty
+                              ? recommendation.authorName[0].toUpperCase()
+                              : '?',
+                          style: context.textStyle.bodyLgBold,
+                        )
+                        : null,
               ),
               const Gap(12),
               Expanded(
@@ -187,7 +215,9 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
                     Text(
                       recommendation.relationship,
                       style: context.textStyle.bodyMdMedium.copyWith(
-                        color: context.colorScheme.onSurface.withValues(alpha: 0.7),
+                        color: context.colorScheme.onSurface.withValues(
+                          alpha: 0.7,
+                        ),
                       ),
                     ),
                   ],
@@ -216,22 +246,30 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
                 onTap: _toggleLike,
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         _hasLiked ? Icons.favorite : Icons.favorite_border,
                         size: 20,
-                        color: _hasLiked
-                            ? Colors.red
-                            : context.colorScheme.onSurface.withValues(alpha: 0.6),
+                        color:
+                            _hasLiked
+                                ? Colors.red
+                                : context.colorScheme.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
                       ),
                       const Gap(4),
                       Text(
                         '$_likesCount',
                         style: context.textStyle.bodyMdMedium.copyWith(
-                          color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: context.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
                     ],
@@ -246,20 +284,27 @@ class _RecommendationItemState extends ConsumerState<RecommendationItem> {
                 onTap: _showCommentsDialog,
                 borderRadius: BorderRadius.circular(8),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.chat_bubble_outline,
                         size: 20,
-                        color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                        color: context.colorScheme.onSurface.withValues(
+                          alpha: 0.6,
+                        ),
                       ),
                       const Gap(4),
                       Text(
                         '$_commentsCount',
                         style: context.textStyle.bodyMdMedium.copyWith(
-                          color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                          color: context.colorScheme.onSurface.withValues(
+                            alpha: 0.6,
+                          ),
                         ),
                       ),
                     ],

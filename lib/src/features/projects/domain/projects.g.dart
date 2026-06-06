@@ -12,6 +12,7 @@ _Projects _$ProjectsFromJson(Map<String, dynamic> json) => _Projects(
   description: Map<String, String>.from(json['description'] as Map),
   link: json['link'] as String,
   imageUrl: json['image_url'] as String,
+  apkUrl: json['apk_url'] as String?,
 );
 
 Map<String, dynamic> _$ProjectsToJson(_Projects instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ProjectsToJson(_Projects instance) => <String, dynamic>{
   'description': instance.description,
   'link': instance.link,
   'image_url': instance.imageUrl,
+  'apk_url': instance.apkUrl,
 };

@@ -45,8 +45,8 @@ class SmallHeroButtons extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: OutlineButton(
-            title: context.texts.home,
-            onTap: () => context.go(Routes.home),
+            title: context.texts.contact,
+            onTap: () => context.go(Routes.contact),
           ),
         ),
       ],

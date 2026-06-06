@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://my-portafolio-922dc.web.app/sitemap.xml

@@ -119,6 +119,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get educationSubtitle => 'My learning path and growth';
 
   @override
+  String get readMore => 'Read more...';
+
+  @override
+  String get downloadApk => 'Download APK';
+
+  @override
+  String get contactTitle => 'Let\'s talk about your app';
+
+  @override
+  String get contactSubtitle =>
+      'Tell me what you want to build, the problem you need to solve, and the timeline you have in mind. WhatsApp is the fastest channel, and email works well for technical details.';
+
+  @override
+  String get contactWhatsApp => 'WhatsApp';
+
+  @override
+  String get contactWhatsAppDescription =>
+      'Fastest way to start a conversation';
+
+  @override
+  String get contactEmail => 'Email';
+
+  @override
+  String get contactEmailDescription =>
+      'Send requirements, links, or project context';
+
+  @override
+  String get contactLinkedInDescription =>
+      'Professional profile and direct messages';
+
+  @override
+  String get contactGitHubDescription =>
+      'Code, repositories, and technical work';
+
+  @override
   String get footerCopyright =>
       '© 2024 Mauricio Pamplona. All rights reserved.';
 

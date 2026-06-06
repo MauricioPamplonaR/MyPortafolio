@@ -10,21 +10,23 @@ class RecommendationsRepository {
   final FirebaseFirestore _db;
 
   RecommendationsRepository({FirebaseFirestore? db})
-      : _db = db ?? FirebaseFirestore.instance;
+    : _db = db ?? FirebaseFirestore.instance;
 
   CollectionReference<Map<String, dynamic>> get _recommendationsRef =>
       _db.collection('recommendations');
 
   // Get all approved recommendations (pinned first, then by date)
   Future<List<Recommendation>> getRecommendations() async {
-    final snapshot = await _recommendationsRef
-        .where('approved', isEqualTo: true)
-        .orderBy('created_at', descending: true)
-        .get();
+    final snapshot =
+        await _recommendationsRef
+            .where('approved', isEqualTo: true)
+            .orderBy('created_at', descending: true)
+            .get();
 
-    final recommendations = snapshot.docs
-        .map((doc) => RecommendationFirestore.fromDoc(doc))
-        .toList();
+    final recommendations =
+        snapshot.docs
+            .map((doc) => RecommendationFirestore.fromDoc(doc))
+            .toList();
 
     // Ordenar: pinned primero, luego por fecha
     recommendations.sort((a, b) {
@@ -38,9 +40,8 @@ class RecommendationsRepository {
 
   // Get all recommendations (for admin)
   Future<List<Recommendation>> getAllRecommendations() async {
-    final snapshot = await _recommendationsRef
-        .orderBy('created_at', descending: true)
-        .get();
+    final snapshot =
+        await _recommendationsRef.orderBy('created_at', descending: true).get();
 
     return snapshot.docs
         .map((doc) => RecommendationFirestore.fromDoc(doc))
@@ -54,48 +55,69 @@ class RecommendationsRepository {
   }
 
   // Toggle like on a recommendation
-  Future<void> toggleLike(String recommendationId, String oderId) async {
-    final likeRef = _db.collection('recommendation_likes').doc('${recommendationId}_$oderId');
-    final recommendationRef = _recommendationsRef.doc(recommendationId);
+  Future<void> toggleLike(String recommendationId, String userId) async {
+    final likeRef = _recommendationsRef
+        .doc(recommendationId)
+        .collection('likes')
+        .doc(userId);
+    final likeDoc = await likeRef.get();
 
-    await _db.runTransaction((transaction) async {
-      final likeDoc = await transaction.get(likeRef);
-      final recommendationDoc = await transaction.get(recommendationRef);
+    if (likeDoc.exists) {
+      await likeRef.delete();
+      return;
+    }
 
-      if (!recommendationDoc.exists) return;
-
-      final currentLikes = recommendationDoc.data()?['likes_count'] ?? 0;
-
-      if (likeDoc.exists) {
-        // Unlike
-        transaction.delete(likeRef);
-        transaction.update(recommendationRef, {'likes_count': currentLikes - 1});
-      } else {
-        // Like
-        transaction.set(likeRef, {
-          'recommendation_id': recommendationId,
-          'user_id': oderId,
-          'created_at': FieldValue.serverTimestamp(),
-        });
-        transaction.update(recommendationRef, {'likes_count': currentLikes + 1});
-      }
+    await likeRef.set({
+      'recommendation_id': recommendationId,
+      'user_id': userId,
+      'created_at': Timestamp.now(),
     });
   }
 
   // Check if user has liked a recommendation
-  Future<bool> hasUserLiked(String recommendationId, String oderId) async {
-    final likeRef = _db.collection('recommendation_likes').doc('${recommendationId}_$oderId');
+  Future<bool> hasUserLiked(String recommendationId, String userId) async {
+    final likeRef = _recommendationsRef
+        .doc(recommendationId)
+        .collection('likes')
+        .doc(userId);
     final doc = await likeRef.get();
     return doc.exists;
   }
 
+  // Get likes count from the likes subcollection.
+  Future<int> getLikesCount(String recommendationId) async {
+    final snapshot =
+        await _recommendationsRef
+            .doc(recommendationId)
+            .collection('likes')
+            .count()
+            .get();
+
+    return snapshot.count ?? 0;
+  }
+
+  // Get comments count from the comments subcollection.
+  Future<int> getCommentsCount(String recommendationId) async {
+    final snapshot =
+        await _recommendationsRef
+            .doc(recommendationId)
+            .collection('comments')
+            .count()
+            .get();
+
+    return snapshot.count ?? 0;
+  }
+
   // Get comments for a recommendation
-  Future<List<RecommendationComment>> getComments(String recommendationId) async {
-    final snapshot = await _recommendationsRef
-        .doc(recommendationId)
-        .collection('comments')
-        .orderBy('created_at', descending: false)
-        .get();
+  Future<List<RecommendationComment>> getComments(
+    String recommendationId,
+  ) async {
+    final snapshot =
+        await _recommendationsRef
+            .doc(recommendationId)
+            .collection('comments')
+            .orderBy('created_at', descending: false)
+            .get();
 
     return snapshot.docs
         .map((doc) => RecommendationCommentFirestore.fromDoc(doc))
@@ -103,21 +125,14 @@ class RecommendationsRepository {
   }
 
   // Add a comment to a recommendation
-  Future<void> addComment(String recommendationId, RecommendationComment comment) async {
-    final recommendationRef = _recommendationsRef.doc(recommendationId);
-
-    await _db.runTransaction((transaction) async {
-      final recommendationDoc = await transaction.get(recommendationRef);
-      if (!recommendationDoc.exists) return;
-
-      final currentComments = recommendationDoc.data()?['comments_count'] ?? 0;
-
-      transaction.set(
-        recommendationRef.collection('comments').doc(),
-        comment.toFirestore(),
-      );
-      transaction.update(recommendationRef, {'comments_count': currentComments + 1});
-    });
+  Future<void> addComment(
+    String recommendationId,
+    RecommendationComment comment,
+  ) async {
+    await _recommendationsRef
+        .doc(recommendationId)
+        .collection('comments')
+        .add(comment.toFirestore());
   }
 
   // Approve a recommendation (admin only)
@@ -137,10 +152,11 @@ class RecommendationsRepository {
 
   // Get pending (not approved) recommendations (for admin)
   Future<List<Recommendation>> getPendingRecommendations() async {
-    final snapshot = await _recommendationsRef
-        .where('approved', isEqualTo: false)
-        .orderBy('created_at', descending: true)
-        .get();
+    final snapshot =
+        await _recommendationsRef
+            .where('approved', isEqualTo: false)
+            .orderBy('created_at', descending: true)
+            .get();
 
     return snapshot.docs
         .map((doc) => RecommendationFirestore.fromDoc(doc))

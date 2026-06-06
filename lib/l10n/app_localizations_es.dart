@@ -119,6 +119,41 @@ class AppLocalizationsEs extends AppLocalizations {
   String get educationSubtitle => 'Mi camino de aprendizaje y crecimiento';
 
   @override
+  String get readMore => 'Leer más...';
+
+  @override
+  String get downloadApk => 'Descargar APK';
+
+  @override
+  String get contactTitle => 'Hablemos de tu app';
+
+  @override
+  String get contactSubtitle =>
+      'Cuéntame qué quieres construir, el problema que necesitas resolver y los tiempos que tienes en mente. WhatsApp es el canal más rápido, y el correo funciona bien para detalles técnicos.';
+
+  @override
+  String get contactWhatsApp => 'WhatsApp';
+
+  @override
+  String get contactWhatsAppDescription =>
+      'La forma más rápida de iniciar una conversación';
+
+  @override
+  String get contactEmail => 'Correo';
+
+  @override
+  String get contactEmailDescription =>
+      'Envía requisitos, enlaces o contexto del proyecto';
+
+  @override
+  String get contactLinkedInDescription =>
+      'Perfil profesional y mensajes directos';
+
+  @override
+  String get contactGitHubDescription =>
+      'Código, repositorios y trabajo técnico';
+
+  @override
   String get footerCopyright =>
       '© 2024 Mauricio Pamplona. Todos los derechos reservados.';
 

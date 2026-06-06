@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -20,7 +22,9 @@ abstract class RecommendationComment with _$RecommendationComment {
 }
 
 extension RecommendationCommentFirestore on RecommendationComment {
-  static RecommendationComment fromDoc(DocumentSnapshot<Map<String, dynamic>> doc) {
+  static RecommendationComment fromDoc(
+    DocumentSnapshot<Map<String, dynamic>> doc,
+  ) {
     final data = doc.data()!;
     return RecommendationComment(
       id: doc.id,

@@ -7,6 +7,114 @@ service cloud.firestore {
       return request.auth != null && request.auth.token.email == 'mauropam77@gmail.com';
     }
 
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwnerEmail(email) {
+      return isSignedIn() && request.auth.token.email == email;
+    }
+
+    function isText(value, maxSize) {
+      return value is string && value.size() > 0 && value.size() <= maxSize;
+    }
+
+    function isNullableString(value) {
+      return value == null || value is string;
+    }
+
+    function recommendationIsReadable(recommendationId) {
+      return isAdmin()
+        || (
+          exists(/databases/$(database)/documents/recommendations/$(recommendationId))
+          && get(/databases/$(database)/documents/recommendations/$(recommendationId)).data.approved == true
+        );
+    }
+
+    function validRecommendationCreate() {
+      return request.resource.data.keys().hasOnly([
+          'author_name',
+          'author_email',
+          'author_photo_url',
+          'content',
+          'relationship',
+          'created_at',
+          'approved',
+          'verified',
+          'pinned',
+          'likes_count',
+          'comments_count',
+        ])
+        && request.resource.data.keys().hasAll([
+          'author_name',
+          'author_email',
+          'content',
+          'relationship',
+          'created_at',
+          'approved',
+          'verified',
+          'pinned',
+          'likes_count',
+          'comments_count',
+        ])
+        && isOwnerEmail(request.resource.data.author_email)
+        && isText(request.resource.data.author_name, 120)
+        && isNullableString(request.resource.data.author_photo_url)
+        && isText(request.resource.data.content, 500)
+        && isText(request.resource.data.relationship, 80)
+        && request.resource.data.created_at is timestamp
+        && request.resource.data.approved == false
+        && request.resource.data.verified == false
+        && request.resource.data.pinned == false
+        && request.resource.data.likes_count == 0
+        && request.resource.data.comments_count == 0;
+    }
+
+    function validCommentCreate(recommendationId) {
+      return recommendationIsReadable(recommendationId)
+        && request.resource.data.keys().hasOnly([
+          'author_name',
+          'author_email',
+          'author_photo_url',
+          'content',
+          'created_at',
+        ])
+        && request.resource.data.keys().hasAll([
+          'author_name',
+          'author_email',
+          'content',
+          'created_at',
+        ])
+        && isOwnerEmail(request.resource.data.author_email)
+        && isText(request.resource.data.author_name, 120)
+        && isNullableString(request.resource.data.author_photo_url)
+        && isText(request.resource.data.content, 500)
+        && request.resource.data.created_at is timestamp;
+    }
+
+    function validLikeCreate(recommendationId, userId) {
+      return recommendationIsReadable(recommendationId)
+        && userId == request.auth.uid
+        && request.resource.data.keys().hasOnly([
+          'user_id',
+          'recommendation_id',
+          'created_at',
+        ])
+        && request.resource.data.keys().hasAll([
+          'user_id',
+          'recommendation_id',
+          'created_at',
+        ])
+        && request.resource.data.user_id == request.auth.uid
+        && request.resource.data.recommendation_id == recommendationId
+        && request.resource.data.created_at is timestamp;
+    }
+
+    match /education/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /educations/{docId} {
       allow read: if true;
       allow write: if isAdmin();
@@ -19,19 +127,29 @@ service cloud.firestore {
 
     match /recommendations/{docId} {
       allow read: if resource.data.approved == true || isAdmin();
-      allow create: if request.auth != null;
-      allow update, delete: if isAdmin();
+      allow create: if isSignedIn() && validRecommendationCreate();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
 
       match /comments/{commentId} {
-        allow read: if true;
-        allow create: if request.auth != null;
+        allow read: if recommendationIsReadable(docId);
+        allow create: if isSignedIn() && validCommentCreate(docId);
+        allow update: if false;
         allow delete: if isAdmin();
       }
 
-      match /likes/{likeId} {
-        allow read: if true;
-        allow create, delete: if request.auth != null;
+      match /likes/{userId} {
+        allow read: if recommendationIsReadable(docId);
+        allow create: if isSignedIn() && validLikeCreate(docId, userId);
+        allow update: if false;
+        allow delete: if isSignedIn()
+          && userId == request.auth.uid
+          && resource.data.user_id == request.auth.uid;
       }
+    }
+
+    match /recommendation_likes/{likeId} {
+      allow read, write: if isAdmin();
     }
   }
 }

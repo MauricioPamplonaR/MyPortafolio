@@ -308,6 +308,66 @@ abstract class AppLocalizations {
   /// **'My learning path and growth'**
   String get educationSubtitle;
 
+  /// No description provided for @readMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Read more...'**
+  String get readMore;
+
+  /// No description provided for @downloadApk.
+  ///
+  /// In en, this message translates to:
+  /// **'Download APK'**
+  String get downloadApk;
+
+  /// No description provided for @contactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s talk about your app'**
+  String get contactTitle;
+
+  /// No description provided for @contactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me what you want to build, the problem you need to solve, and the timeline you have in mind. WhatsApp is the fastest channel, and email works well for technical details.'**
+  String get contactSubtitle;
+
+  /// No description provided for @contactWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get contactWhatsApp;
+
+  /// No description provided for @contactWhatsAppDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Fastest way to start a conversation'**
+  String get contactWhatsAppDescription;
+
+  /// No description provided for @contactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get contactEmail;
+
+  /// No description provided for @contactEmailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Send requirements, links, or project context'**
+  String get contactEmailDescription;
+
+  /// No description provided for @contactLinkedInDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional profile and direct messages'**
+  String get contactLinkedInDescription;
+
+  /// No description provided for @contactGitHubDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Code, repositories, and technical work'**
+  String get contactGitHubDescription;
+
   /// No description provided for @footerCopyright.
   ///
   /// In en, this message translates to:

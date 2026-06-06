@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:portafolio_app_web/constans/app_contact.dart';
 import 'package:portafolio_app_web/constans/app_icon.dart';
 import 'package:portafolio_app_web/routes/app_routes.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
@@ -24,20 +25,19 @@ class MyFooter extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         padding: EdgeInsets.all(context.insets.padding),
-      child: Column(
-        children: [
-          context.isDesktop ? _DesktopFooter() :  _PhoneFooter(),
-          Divider(height: 24),
-          PoweredByFlutter(),
-          Text(
-            context.texts.footerCopyright,
-          ),
-        ]
-          ),
+        child: Column(
+          children: [
+            context.isDesktop ? _DesktopFooter() : _PhoneFooter(),
+            Divider(height: 24),
+            PoweredByFlutter(),
+            Text(context.texts.footerCopyright),
+          ],
+        ),
       ),
     );
   }
 }
+
 class _PhoneFooter extends StatelessWidget {
   const _PhoneFooter();
 
@@ -62,13 +62,7 @@ class _DesktopFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppLogo(),
-        Flexible(
-          child: LargeMenu(),
-        ),
-        _FooterLinks(),
-      ],
+      children: [AppLogo(), Flexible(child: LargeMenu()), _FooterLinks()],
     );
   }
 }
@@ -86,19 +80,35 @@ class _FooterLinks extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _FooterLinkItem(
-          onPressed: () => launchUrl(Uri.parse('https://www.youtube.com/@mauriciopamplona1173'), mode: LaunchMode.externalApplication),
+          onPressed:
+              () => launchUrl(
+                Uri.parse(AppContact.youtubeUrl),
+                mode: LaunchMode.externalApplication,
+              ),
           icon: AppIcon.youtube,
         ),
         _FooterLinkItem(
-          onPressed: () => launchUrl(Uri.parse('https://www.instagram.com/mauricio_pamplona_s'), mode: LaunchMode.externalApplication),
+          onPressed:
+              () => launchUrl(
+                Uri.parse(AppContact.instagramUrl),
+                mode: LaunchMode.externalApplication,
+              ),
           icon: AppIcon.instagram,
         ),
         _FooterLinkItem(
-          onPressed: () => launchUrl(Uri.parse('https://github.com/MauricioPamplonaR'), mode: LaunchMode.externalApplication),
+          onPressed:
+              () => launchUrl(
+                Uri.parse(AppContact.githubUrl),
+                mode: LaunchMode.externalApplication,
+              ),
           icon: AppIcon.github,
         ),
         _FooterLinkItem(
-          onPressed: () => launchUrl(Uri.parse('https://www.linkedin.com/in/mauricio-pamplona-778339193/'), mode: LaunchMode.externalApplication),
+          onPressed:
+              () => launchUrl(
+                Uri.parse(AppContact.linkedinUrl),
+                mode: LaunchMode.externalApplication,
+              ),
           icon: AppIcon.linkedin,
         ),
         if (isAdmin)
@@ -116,10 +126,7 @@ class _FooterLinks extends StatelessWidget {
 }
 
 class _FooterLinkItem extends StatelessWidget {
-  const _FooterLinkItem( {
-    required this.onPressed,
-    required this.icon,
-  });
+  const _FooterLinkItem({required this.onPressed, required this.icon});
 
   final VoidCallback onPressed;
   final String icon;
@@ -134,7 +141,7 @@ class _FooterLinkItem extends StatelessWidget {
         height: context.isDesktop ? 28 : 24,
         colorFilter: ColorFilter.mode(
           context.colorScheme.onSurface,
-          BlendMode.srcIn
+          BlendMode.srcIn,
         ),
       ),
     );

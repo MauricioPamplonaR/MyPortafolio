@@ -14,6 +14,7 @@ abstract class Projects with _$Projects {
     required Map<String, String> description,
     required String link,
     @JsonKey(name: 'image_url') required String imageUrl,
+    @JsonKey(name: 'apk_url') String? apkUrl,
   }) = _Projects;
 
   factory Projects.fromJson(Map<String, dynamic> json) =>
@@ -26,10 +27,14 @@ extension ProjectsFirestore on Projects {
 
     // Convertir los maps de dynamic a String con valores por defecto
     final nameData = data['name'] as Map<String, dynamic>? ?? {};
-    final nameMap = nameData.map((key, value) => MapEntry(key, value?.toString() ?? ''));
+    final nameMap = nameData.map(
+      (key, value) => MapEntry(key, value?.toString() ?? ''),
+    );
 
     final descriptionData = data['description'] as Map<String, dynamic>? ?? {};
-    final descriptionMap = descriptionData.map((key, value) => MapEntry(key, value?.toString() ?? ''));
+    final descriptionMap = descriptionData.map(
+      (key, value) => MapEntry(key, value?.toString() ?? ''),
+    );
 
     return Projects(
       id: doc.id,
@@ -37,6 +42,7 @@ extension ProjectsFirestore on Projects {
       description: descriptionMap,
       link: data['link'] as String? ?? '',
       imageUrl: data['image_url'] as String? ?? '',
+      apkUrl: data['apk_url'] as String?,
     );
   }
 }

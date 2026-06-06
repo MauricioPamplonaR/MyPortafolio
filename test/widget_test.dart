@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:portafolio_app_web/main.dart';
+import 'package:portafolio_app_web/src/features/projects/domain/projects.dart';
+import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  group('Projects', () {
+    test('parses localized JSON fields and optional APK URL', () {
+      final project = Projects.fromJson({
+        'id': 'demo',
+        'name': {'en': 'Portfolio', 'es': 'Portafolio'},
+        'description': {'en': 'Website', 'es': 'Sitio web'},
+        'link': 'https://mauriciopamplona.com',
+        'image_url': 'https://example.com/project.png',
+        'apk_url': 'https://example.com/app.apk',
+      });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+      expect(project.name['es'], 'Portafolio');
+      expect(project.description['en'], 'Website');
+      expect(project.imageUrl, 'https://example.com/project.png');
+      expect(project.apkUrl, 'https://example.com/app.apk');
+    });
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  group('NullableUrlString', () {
+    test('accepts only http and https network URLs', () {
+      const validUrl = 'https://example.com/app.apk';
+      const invalidScheme = 'ftp://example.com/app.apk';
+      const relativePath = '/downloads/app.apk';
+      const emptyUrl = '';
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      expect(validUrl.validNetworkUrl, validUrl);
+      expect(invalidScheme.validNetworkUrl, isNull);
+      expect(relativePath.validNetworkUrl, isNull);
+      expect(emptyUrl.validNetworkUrl, isNull);
+    });
   });
 }

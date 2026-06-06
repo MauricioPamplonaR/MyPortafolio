@@ -67,10 +67,11 @@ class EducationItem extends ConsumerWidget {
             alignment: WrapAlignment.center,
             spacing: 6,
             runSpacing: 6,
-            children: education.skills
-                .take(3)
-                .map((skill) => _SkillChip(skill: skill))
-                .toList(),
+            children:
+                education.skills
+                    .take(3)
+                    .map((skill) => _SkillChip(skill: skill))
+                    .toList(),
           ),
           const Gap(10),
 
@@ -89,10 +90,7 @@ class EducationItem extends ConsumerWidget {
 
           // Botón ver certificado
           if (education.link.isNotEmpty)
-            _CertificateButton(
-              link: education.link,
-              locale: locale,
-            ),
+            _CertificateButton(link: education.link, locale: locale),
         ],
       ),
     );
@@ -105,6 +103,8 @@ class _PlatformLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final logoUrl = imageUrl.validNetworkUrl;
+
     return Container(
       width: 64,
       height: 64,
@@ -133,14 +133,16 @@ class _PlatformLogo extends StatelessWidget {
           color: context.colorScheme.surface,
         ),
         child: ClipOval(
-          child: imageUrl.isNotEmpty
-              ? Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const _PlaceholderIcon(),
-                )
-              : const _PlaceholderIcon(),
+          child:
+              logoUrl != null
+                  ? Image.network(
+                    logoUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder:
+                        (context, error, stackTrace) =>
+                            const _PlaceholderIcon(),
+                  )
+                  : const _PlaceholderIcon(),
         ),
       ),
     );
@@ -209,16 +211,11 @@ class _CertificateButton extends StatelessWidget {
           backgroundColor: context.colorScheme.primary,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 10),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: Text(
           locale == 'es' ? 'Ver Certificado' : 'View Certificate',
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 13,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13),
         ),
       ),
     );
