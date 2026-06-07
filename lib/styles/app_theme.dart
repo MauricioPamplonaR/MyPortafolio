@@ -5,14 +5,13 @@ import 'package:portafolio_app_web/styles/app_size.dart';
 class AppTheme {
   final String fontFamily;
 
-  AppTheme({
-    required this.fontFamily,
-  });
+  AppTheme({required this.fontFamily});
 
   ThemeData get dark {
     return _getThemeData(
       colorScheme: ColorScheme.dark(
-        primary: AppColors.primaryColor,
+        primary: AppColors.darkPrimaryColor,
+        onPrimary: AppColors.gray[900]!,
         surface: AppColors.darkBackgroundColor,
         onSurface: AppColors.gray[100]!,
         outline: AppColors.gray[800]!,
@@ -30,6 +29,7 @@ class AppTheme {
     return _getThemeData(
       colorScheme: ColorScheme.light(
         primary: AppColors.primaryColor,
+        onPrimary: AppColors.gray[100]!,
         surface: AppColors.gray[200]!,
         outline: AppColors.gray[400]!,
         outlineVariant: AppColors.gray[300]!,
@@ -59,68 +59,107 @@ class AppTheme {
       appBarTheme: appBarTheme,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          fixedSize: WidgetStateProperty.all(Size.fromHeight(40)),
-          backgroundColor: _primaryButtonStates,
-          padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: Insets.xs, vertical: 10)),
+          fixedSize: WidgetStateProperty.all(const Size.fromHeight(40)),
+          backgroundColor: _primaryButtonStates(colorScheme),
+          foregroundColor: WidgetStateProperty.all(colorScheme.onPrimary),
+          padding: WidgetStateProperty.all(
+            EdgeInsets.symmetric(horizontal: Insets.xs, vertical: 10),
+          ),
           textStyle: elevatedButtonTextStyle,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: ButtonStyle(
+          foregroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return colorScheme.onSurface.withValues(alpha: 0.38);
+            }
+            return colorScheme.primary;
+          }),
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.pressed) ||
+                states.contains(WidgetState.focused)) {
+              return colorScheme.primary.withValues(alpha: 0.12);
+            }
+            return null;
+          }),
+          textStyle: WidgetStateProperty.all(
+            TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.w700),
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
-          fixedSize: WidgetStateProperty.all(Size.fromHeight(40)),
-          side: _outlineButtonStates,
+          fixedSize: WidgetStateProperty.all(const Size.fromHeight(40)),
+          side: _outlineButtonStates(colorScheme),
           textStyle: outlinedButtonTextStyle,
           backgroundColor: WidgetStateProperty.all(colorScheme.surface),
           foregroundColor: WidgetStateProperty.all(colorScheme.onSurface),
-          padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16, vertical: 8)),
-          shape: WidgetStateProperty.all(const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)))),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
+          shape: WidgetStateProperty.all(
+            const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  final WidgetStateProperty<Color> _primaryButtonStates = WidgetStateProperty.resolveWith((states) {
-    if (states.contains(WidgetState.hovered) || states.contains(WidgetState.pressed)) {
-      return Color(0xff564895);
-    }
-    return AppColors.primaryColor;
-  });
+  WidgetStateProperty<Color> _primaryButtonStates(ColorScheme colorScheme) {
+    return WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.hovered) ||
+          states.contains(WidgetState.pressed)) {
+        return Color.lerp(colorScheme.primary, colorScheme.onSurface, 0.1)!;
+      }
+      return colorScheme.primary;
+    });
+  }
 
-  final WidgetStateProperty<BorderSide> _outlineButtonStates = WidgetStateProperty.resolveWith((states) {
-    if (states.contains(WidgetState.hovered) || states.contains(WidgetState.pressed)) {
-      return BorderSide(color: Color(0xff561895), width: 2);
-    }
-    return BorderSide(color: Color(0xff561895));
-  });
+  WidgetStateProperty<BorderSide> _outlineButtonStates(
+    ColorScheme colorScheme,
+  ) {
+    return WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.hovered) ||
+          states.contains(WidgetState.pressed)) {
+        return BorderSide(color: colorScheme.primary, width: 2);
+      }
+      return BorderSide(color: colorScheme.primary);
+    });
+  }
 
-  WidgetStateProperty<TextStyle> get _darkElevatedButtonTextStyle => WidgetStateProperty.all(
-    TextStyle(
-      color: AppColors.gray[100],
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w500,
-    ),
-  );
+  WidgetStateProperty<TextStyle> get _darkElevatedButtonTextStyle =>
+      WidgetStateProperty.all(
+        TextStyle(
+          color: AppColors.gray[100],
+          fontFamily: fontFamily,
+          fontWeight: FontWeight.w500,
+        ),
+      );
 
-  WidgetStateProperty<TextStyle> get _lightElevatedButtonTextStyle => WidgetStateProperty.all(
-    TextStyle(
-      color: AppColors.gray[100],
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w500,
-    ),
-  );
+  WidgetStateProperty<TextStyle> get _lightElevatedButtonTextStyle =>
+      WidgetStateProperty.all(
+        TextStyle(
+          color: AppColors.gray[100],
+          fontFamily: fontFamily,
+          fontWeight: FontWeight.w500,
+        ),
+      );
 
-  WidgetStateProperty<TextStyle> get _darkOutlinedButtonTextStyle => WidgetStateProperty.all(
-    TextStyle(
-      color: AppColors.gray[100],
-      fontFamily: fontFamily,
-      fontWeight: FontWeight.w500,
-    ),
-  );
+  WidgetStateProperty<TextStyle> get _darkOutlinedButtonTextStyle =>
+      WidgetStateProperty.all(
+        TextStyle(
+          color: AppColors.gray[100],
+          fontFamily: fontFamily,
+          fontWeight: FontWeight.w500,
+        ),
+      );
 
-  WidgetStateProperty<TextStyle> get _lightOutlinedButtonTextStyle => WidgetStateProperty.all(
-    TextStyle(
-      color: AppColors.gray[800],
-      fontFamily: fontFamily,
-    ),
-  );
+  WidgetStateProperty<TextStyle> get _lightOutlinedButtonTextStyle =>
+      WidgetStateProperty.all(
+        TextStyle(color: AppColors.gray[800], fontFamily: fontFamily),
+      );
 }

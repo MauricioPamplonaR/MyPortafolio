@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:portafolio_app_web/firebase_options.dart';
 import 'package:portafolio_app_web/l10n/app_localizations.dart';
 import 'package:portafolio_app_web/routes/app_routes.dart';
@@ -11,13 +12,12 @@ import 'package:portafolio_app_web/styles/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,  
-  );
-  
- runApp(const ProviderScope(child:  MyApp()));
- 
+  usePathUrlStrategy();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  runApp(const ProviderScope(child: MyApp()));
 }
+
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
@@ -37,17 +37,13 @@ class MyApp extends ConsumerWidget {
       darkTheme: AppTheme(fontFamily: _fontFamily(locale.value)).dark,
       theme: AppTheme(fontFamily: _fontFamily(locale.value)).light,
       themeMode: theme.value,
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('es', 'ES'),
-      ],
+      supportedLocales: const [Locale('en', 'US'), Locale('es', 'ES')],
       locale: Locale(locale.value ?? 'en'),
       routerConfig: AppRoutes.routes,
     );
   }
 
   String _fontFamily(String? locale) {
-
-    return (locale??'en')=='en'?'Urbanist':'Urbanist';
+    return (locale ?? 'en') == 'en' ? 'Urbanist' : 'Urbanist';
   }
 }
