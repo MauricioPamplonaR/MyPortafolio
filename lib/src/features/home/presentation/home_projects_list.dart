@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:portafolio_app_web/src/features/projects/data/remote_projects_repository.dart';
 import 'package:portafolio_app_web/src/features/projects/presentation/project_item.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/home_title_subtitle.dart';
 
@@ -25,7 +26,7 @@ class HomeProjectsList extends ConsumerWidget {
           data: (projects) => context.isDesktop
               ? _HomeProjectsListDesktop(projects: projects)
               : _HomeCourseListPhone(projects: projects),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const AppLoadingIndicator(),
           error: (error, stack) => Center(child: Text('Error: $error')),
         ),
       ],

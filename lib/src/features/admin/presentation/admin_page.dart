@@ -5,6 +5,7 @@ import 'package:portafolio_app_web/constans/app_admin.dart';
 import 'package:portafolio_app_web/src/features/auth/data/auth_repository.dart';
 import 'package:portafolio_app_web/src/features/recommendations/data/recommendations_repository.dart';
 import 'package:portafolio_app_web/src/features/recommendations/domain/recommendation.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/app_scaffold.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/styled_card.dart';
@@ -60,7 +61,7 @@ class AdminPage extends ConsumerWidget {
           () => const AppScaffold(
             slivers: [
               SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
+                child: AppLoadingIndicator(),
               ),
             ],
           ),
@@ -132,15 +133,7 @@ class _PendingRecommendationsList extends ConsumerWidget {
           itemCount: recommendations.length,
         );
       },
-      loading:
-          () => const SliverToBoxAdapter(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(32),
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          ),
+      loading: () => const AppSliverLoadingIndicator(),
       error:
           (error, stack) => SliverToBoxAdapter(
             child: Center(

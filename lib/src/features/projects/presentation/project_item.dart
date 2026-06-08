@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:portafolio_app_web/shared/app_locale_controller.dart';
 import 'package:portafolio_app_web/src/features/projects/domain/projects.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/styled_card.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,14 +68,13 @@ class ProjectItem extends ConsumerWidget {
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
-                          return Center(
-                            child: CircularProgressIndicator(
-                              value:
-                                  loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                            ),
+                          return AppLoadingIndicator(
+                            size: 32,
+                            value:
+                                loadingProgress.expectedTotalBytes != null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
                           );
                         },
                         errorBuilder: (context, error, stackTrace) {

@@ -5,6 +5,7 @@ import 'package:portafolio_app_web/src/features/auth/data/auth_repository.dart';
 import 'package:portafolio_app_web/src/features/recommendations/data/recommendations_repository.dart';
 import 'package:portafolio_app_web/src/features/recommendations/domain/recommendation.dart';
 import 'package:portafolio_app_web/src/features/recommendations/domain/recommendation_comment.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 class CommentsDialog extends ConsumerStatefulWidget {
@@ -172,7 +173,7 @@ class _CommentsDialogState extends ConsumerState<CommentsDialog> {
               Flexible(
                 child:
                     _isLoading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const AppLoadingIndicator()
                         : _comments.isEmpty
                         ? Center(
                           child: Text(
@@ -250,7 +251,10 @@ class _CommentsDialogState extends ConsumerState<CommentsDialog> {
                             ? const SizedBox(
                               width: 20,
                               height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                              child: AppLoadingIndicator(
+                                size: 20,
+                                strokeWidth: 2,
+                              ),
                             )
                             : const Icon(Icons.send),
                   ),

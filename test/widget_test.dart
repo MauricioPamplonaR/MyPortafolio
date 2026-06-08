@@ -1,5 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:portafolio_app_web/src/features/projects/domain/projects.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 void main() {
@@ -32,6 +34,25 @@ void main() {
       expect(invalidScheme.validNetworkUrl, isNull);
       expect(relativePath.validNetworkUrl, isNull);
       expect(emptyUrl.validNetworkUrl, isNull);
+    });
+  });
+
+  group('AppLoadingIndicator', () {
+    testWidgets('keeps the circular indicator in a square box', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: SizedBox(
+            width: 320,
+            height: 160,
+            child: AppLoadingIndicator(size: 40),
+          ),
+        ),
+      );
+
+      expect(
+        tester.getSize(find.byType(CircularProgressIndicator)),
+        const Size.square(40),
+      );
     });
   });
 }

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portafolio_app_web/src/features/recommendations/data/recommendations_repository.dart';
 import 'package:portafolio_app_web/src/features/recommendations/presentation/recommendation_item.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 
 class RecommendationsList extends ConsumerWidget {
@@ -36,14 +37,7 @@ class RecommendationsList extends ConsumerWidget {
             ? _DesktopRecommendations(recommendations: recommendations)
             : _PhoneRecommendations(recommendations: recommendations);
       },
-      loading: () => const SliverToBoxAdapter(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(32),
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      ),
+      loading: () => const AppSliverLoadingIndicator(),
       error: (error, stack) => SliverToBoxAdapter(
         child: Center(
           child: Padding(

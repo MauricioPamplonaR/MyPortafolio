@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:portafolio_app_web/src/features/education/data/remote_education_repository.dart';
 import 'package:portafolio_app_web/src/features/education/domain/education.dart';
 import 'package:portafolio_app_web/src/features/education/presentation/education_item.dart';
+import 'package:portafolio_app_web/src/widgets/app_loading_indicator.dart';
 import 'package:portafolio_app_web/src/widgets/extensions.dart';
 import 'package:portafolio_app_web/src/widgets/home_title_subtitle.dart';
 
@@ -31,7 +32,7 @@ class EducationBody extends ConsumerWidget {
           data: (educationList) => context.isDesktop
               ? _DesktopEducationBody(educationList: educationList)
               : _PhoneEducationBody(educationList: educationList),
-          loading: () => const Center(child: CircularProgressIndicator()),
+          loading: () => const AppLoadingIndicator(),
           error: (error, stack) => Center(child: Text('Error: $error')),
         ),
       ],
